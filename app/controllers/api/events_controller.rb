@@ -85,11 +85,7 @@ module Api
 				event_type_id: @ev_type.id
 			)
 
-			if newEvent.save
-				render json: newEvent.to_json()
-			else
-				render json:{status: 'ERROR', message:'Event not saved'}, status: :unprocessable_entity
-			end
+			render json: newEvent.to_json()
 		end
 						
 		def destroy
