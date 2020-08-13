@@ -6,7 +6,7 @@ module Api
 			user = User.new(user_params);
 
 			if user.save
-  				render json: user.to_json(only: [:username, :first_name, :last_name, :email])
+  				render json: user.to_json(only: [:username, :first_name, :last_name, :email]), status: :created
 			else
 				render json:{status: 'ERROR', message:'User not saved', data:user.errors}, status: :unprocessable_entity
 			end

@@ -7,7 +7,7 @@ module Api
 			if @user.password == params[:password]
                 token = generate_token
                 @user.update(token: token)
-                render json: {token: token}
+                render json: {token: token}, status: :ok
             else
                 render json:{status: 'ERROR', message:'User not found', data:@user.errors}, status: :unprocessable_entity
 			end
