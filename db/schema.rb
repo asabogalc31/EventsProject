@@ -10,12 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200812224240) do
+ActiveRecord::Schema.define(version: 20200813010239) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "event_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|
+    t.string   "name",          null: false
+    t.string   "location",      null: false
+    t.string   "address",       null: false
+    t.date     "initial_date",  null: false
+    t.date     "final_date"
+    t.string   "thumbnail"
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.integer  "event_type_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["category_id"], name: "index_events_on_category_id", using: :btree
+    t.index ["event_type_id"], name: "index_events_on_event_type_id", using: :btree
+    t.index ["user_id"], name: "index_events_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|

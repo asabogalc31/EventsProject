@@ -1,20 +1,61 @@
 module Api
 	class EventsController < ApplicationController
-		skip_before_action :verify_authenticity_token
+		def index
+			@userId = User.where(token: request.headers["Authorization"]).first
+			@events_by_user = Event.select('events.name AS event_name, 
+			c.name AS event_category,
+			events.location AS event_place, 
+			events.address AS event_address, 
+			events.initial_date AS event_initial_date, 
+			events.final_date AS event_final_date, 
+			e.name AS event_typed,
+			events.thumbnail')
+			.joins(:user)
+			.joins("INNER JOIN categories As c ON events.category_id = c.id")
+			.joins("INNER JOIN event_types As e ON events.event_type_id = e.id")
+			.where(users: {id: @userId.id})
 
-        def show
-			
+			if !@userId.to_s.strip.empty?
+				render json: @events_by_user.to_json()
+			else
+				render json:{status: 'ERROR', message:'Token invalid'}, status: :unprocessable_entity
+			end			
+		end
+		
+		def show
+			@userId = User.where(token: request.headers["Authorization"]).first
+			@events_by_user = Event.select('events.id, 
+			events.name AS event_name, 
+			c.name AS event_category,
+			events.location AS event_place, 
+			events.address AS event_address, 
+			events.initial_date AS event_initial_date, 
+			events.final_date AS event_final_date, 
+			e.name AS event_typed,
+			events.thumbnail')
+			.joins(:user)
+			.joins("INNER JOIN categories As c ON events.category_id = c.id")
+			.joins("INNER JOIN event_types As e ON events.event_type_id = e.id")
+			.where(users: {id: @userId.id}, events: {id: params[:id]})
+
+			if !@userId.to_s.strip.empty?
+				render json: @events_by_user.to_json()
+			else
+				render json:{status: 'ERROR', message:'Token invalid'}, status: :unprocessable_entity
+			end			
         end
         
 		private
 
-		def user_params
+		def event_params
 			params.permit(
-				:username,
-				:first_name,
-				:last_name,
-				:email,
-				:password
+				:name,
+				:idCategory,
+				:location,
+				:address,
+				:initial_date,
+				:final_date,
+				:thumbnail
 			);
 
 		end
