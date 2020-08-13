@@ -1,3 +1,3 @@
-class EventType < ApplicationRecord
+class TypeEvent < ApplicationRecord
     validates :name, presence:true
 end
