@@ -11,5 +11,7 @@ module EventsProject
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.web_console.whitelisted = '0.0.0.0/0'
+    config.web_console.whiny_requests = false
   end
 end

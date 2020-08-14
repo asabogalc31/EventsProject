@@ -6,6 +6,8 @@
 #
 default: &default
   adapter: mysql2
+  username: root
+  password: Test1234
   pool: 5
   timeout: 5000
 
