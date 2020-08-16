@@ -1,5 +1,7 @@
 module Api
 	class EventsController < ApplicationController
+		skip_before_action :verify_authenticity_token
+		
 		def index
 			@userId = User.where(token: request.headers["Authorization"]).first
 			@events_by_user = Event.select('events.event_name, 
