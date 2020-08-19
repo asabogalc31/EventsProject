@@ -25,3 +25,5 @@ test:
 production:
   <<: *default
   database: eventdb
+  username: root
+  password: Test1234
