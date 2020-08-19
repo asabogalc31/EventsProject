@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200813202453) do
+ActiveRecord::Schema.define(version: 20200818041526) do
 
   create_table "categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|
     t.string   "name",       null: false
@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(version: 20200813202453) do
     t.index ["category_id"], name: "index_events_on_category_id", using: :btree
     t.index ["type_event_id"], name: "index_events_on_type_event_id", using: :btree
     t.index ["user_id"], name: "index_events_on_user_id", using: :btree
+  end
+
+  create_table "sessions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "type_events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci" do |t|

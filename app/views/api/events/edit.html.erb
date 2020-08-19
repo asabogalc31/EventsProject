@@ -1,0 +1,42 @@
+<div class="container">    
+            
+    <div style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Actualizar información evento</div>
+            </div>  
+            <div class="panel-body" >
+                <form action="/api/events" class="form-horizontal" method="post">
+                    <div id="div_id_event" class="form-group required">
+                        <label class="control-label col-md-6"><b> Nombre de evento: </b></label>
+                        <input class="control-label" name="[event_name]" placeholder="[event_name]">
+                        <br/>
+                        <label class="control-label col-md-6"><b> Categoría:</b></label>
+                        <%= select_tag(:event_category, raw('<option value="1">Conferencia</option><option value="2">Seminario</option><option value="3">Congreso</option><option value="4">Curso</option>')) %>
+                        <br/>
+                        <label class="control-label col-md-6"><b> Tipo de evento: </b></label>
+                        <%= select_tag(:event_type, raw('<option value="1">Virtual</option><option value="2">Presencial</option>')) %>
+                        <br/>
+                        <label class="control-label col-md-6"><b> Lugar: </b></label>
+                        <input class="control-label" name="[event_place]">
+                        <br/>
+                        <label class="control-label col-md-6"><b> Dirección:</b></label>
+                        <input class="control-label" name="[event_address]">
+                        <br/>
+                        <label class="control-label col-md-6"><b> Fecha inicial:</b></label>
+                        <%= date_field :event, :event_initial_date %>
+                        <br/>
+                        <label class="control-label col-md-6"><b> Fecha final:</b></label>
+                        <%= date_field :event, :event_final_date%>
+                        <br/>
+                        <label class="control-label col-md-6"><b> Thumbnail:</b></label>
+                        <%= file_field_tag 'thumbnail'%>
+                        <br/>
+                        <br/>
+                        <input type="submit" class="control-label">                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> 
+</div>
