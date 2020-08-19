@@ -1,0 +1,45 @@
+<div>
+    <div style="float:left">
+        <h1>Listado de eventos</h1>
+    </div>
+    <div style="float:right">
+        <%= button_to "Agregar evento", new_api_event_path, :method => :get %>
+        <a>Cerrar sesión</a>
+    </div>
+</div>
+ 
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Categoría</th>
+      <th scope="col">Tipo de evento</th>
+      <th scope="col">Lugar</th>
+      <th scope="col">Dirección</th>
+      <th scope="col">Fecha de inicio</th>
+      <th scope="col">Fecha final</th>
+      <th scope="col">Thumbnail</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>  
+  <tbody>    
+    <% @events.each do |event| %>
+        <tr>
+            <td><%= event.id %></td>
+            <td><u><%= link_to event.event_name, api_event_path(event)%></u></td>
+            <td><%= event.event_category %></td>
+            <td><%= event.event_type %></td>
+            <td><%= truncate(event.event_place, length: 10) %></td>
+            <td><%= truncate(event.event_address, length: 10) %></td>
+            <td><%= event.event_initial_date %></td>
+            <td><%= event.event_final_date %></td>
+            <td><%= event.thumbnail %></td>
+            <td><%= link_to 'Editar', edit_api_event_path(event) %></td>
+            <td><%= link_to 'Delete', api_event_path(event), method: :delete, data: {confirm: '¿Está seguro de eliminar el evento?'} %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

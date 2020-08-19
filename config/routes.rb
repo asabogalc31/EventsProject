@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
-	namespace 'api' do		
-		resources :users, only: [:create], :path => 'create-user'
-		resources :auth, only: [:create], :path => 'api-auth'
-		resources :events, :path => 'events'
+  root to: 'main#index'
+
+  namespace 'api' do		
+    post '/users' => 'users#create', :path => 'create-user'
+    post '/sessions' => 'sessions#create', :path => 'api-auth'
+    resources :events, :path => 'events'
 	end
 end

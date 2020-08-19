@@ -1,0 +1,69 @@
+<div class="sidenav">
+    <div class="main-text">
+    <h1 style="color:#17252A; font-weight: bold;">Aplicación<br> de eventos</h1>
+    <p id="subtitle">Inicie sesión o registrese para acceder.</p>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-6 col-sm-12">
+        <div class="main-form">            
+            <ul class="nav nav-tabs md-tabs" id="tabs" role="tablist">
+                <li class="nav-item">
+                <a class="nav-link active" id="signin-tab-md" data-toggle="tab" href="#signin-md" role="tab" aria-controls="signin-md"
+                    aria-selected="true">Iniciar sesión</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" id="signup-tab-md" data-toggle="tab" href="#signup-md" role="tab" aria-controls="signup-md"
+                    aria-selected="false">Registro</a>
+                </li>
+            </ul>
+            <div class="tab-content card pt-5" id="content">
+                <div class="tab-pane fade show active" id="signin-md" role="tabpanel" aria-labelledby="signin-tab-md">
+                    <form action="/api/api-auth" method="POST">
+                        <div class="form-group">
+                            <label>Usuario</label>
+                            <input type="text" class="form-control"  name="user[username]" placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" name="user[password]" placeholder="Contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-dark btn-lg btn-block">Ingresar</button>
+                    </form>
+                    <div class="errors">
+                        <% if flash[:login_errors] %>
+                            <%flash[:login_errors].each do |error| %>
+                                <p> <%=error%></p>
+                            <% end %>
+                        <% end %>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="signup-md" role="tabpanel" aria-labelledby="signup-tab-md">
+                    <form action="/api/create-user" method="POST">
+                        <div class="form-group">
+                            <label>Usuario</label>
+                            <input type="text" class="form-control" name="user[username]" placeholder="Usuario">
+                        </div>
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" name="user[first_name]" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text" class="form-control" name="user[last_name]" placeholder="Apellido">
+                        </div>
+                        <div class="form-group">
+                            <label>Correo electrónico</label>
+                            <input type="email" class="form-control" name="user[email]" placeholder="Correo electrónico">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" name="user[password]" placeholder="Contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-dark btn-lg btn-block">Registrarme!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
