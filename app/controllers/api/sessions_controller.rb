@@ -15,16 +15,29 @@ module Api
                     format.html { redirect_to controller: "events", action: "index" }      
                     format.json { render json: {:token => generate_token}, status: :ok }
                 else
-                    flash[:login_errors] = ['El usuario o contraseña es incorrecta.']
+                    flash[:login_errors] = ['El usuario o la contraseña es incorrecta.']
                     format.html { redirect_to root_path }       
                     format.json { render json:{status: 'ERROR', message:'User not found'}, status: :unprocessable_entity }             
                 end
             end
         end
 
+        def delete
+
+        end
+
         def destroy
-          session[:user_id] = nil
-          redirect_to root_url, notice: "Logged out!"
+            @user = User.find_by(token: session[:user_id])
+            respond_to do |format|
+                if !@user.to_s.strip.empty?
+                    reset_session
+                    @user.update(token: "")
+                    format.html { redirect_to root_url }       
+                else
+                    format.html { redirect_to controller: "events", action: "index" }       
+                    format.json { render json:{status: 'ERROR', message:'User not found'}, status: :unprocessable_entity }             
+                end
+            end
         end
 
         private

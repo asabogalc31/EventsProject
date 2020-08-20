@@ -85,39 +85,33 @@ module Api
 		end
 		
 		def edit
-			@evento = Event.find(params[:id])
+			@event = Event.find(params[:id])
 		end
 
 		def update
-			@userId = User.find_by(token: session[:user_id])
-			@category = Category.where(name:  params[:event_category]).first
-			@ev_type = TypeEvent.where(name: params[:event_type]).first
-			@event = Event.find(params[:id])
-
-			if !@user.to_s.strip.empty?
-				@evento = @event.update(
+			@user = User.find_by(token: session[:user_id])
+			@event = Event.where(id: params[:id])
+				.update(
 					event_name: params[:event_name],
 					event_place: params[:event_place],
 					event_address: params[:event_address],
-					event_initial_date: params[:event][:event_initial_date],
-					event_final_date: params[:event][:event_final_date],
+					event_initial_date: params[:event_initial_date],
+					event_final_date: params[:event_final_date],
 					thumbnail: params[:thumbnail],
-					user_id: @userId.id,
-					category_id: @category.id,
-					type_event_id: @ev_type.id
+					user_id: @user.id,
+					category_id: params[:event_category],
+					type_event_id: params[:event_type]
 				)
-				respond_to do |format|
-					if @event
-						format.html { render controller: "events", action: "index" }      
-						format.json { render json: @event.to_json(), status: :accepted }	
-					else
-						format.html { render controller: "events", action: "edit" } 
-						format.json { render json:{status: 'ERROR', message:'Event not saved'}, status: :unprocessable_entity }					
-					end
-				  end
-			else
-				render 'edit'
-			end				
+
+			respond_to do |format|
+				if @event
+					format.html { redirect_to controller: "events", action: "index" }      
+					format.json { render json: @event.to_json(), status: :accepted }	
+				else
+					format.html { render controller: "events", action: "edit" } 
+					format.json { render json:{status: 'ERROR', message:'Event not saved'}, status: :unprocessable_entity }					
+				end
+			end		
 		end
 			
 		def delete
@@ -126,14 +120,22 @@ module Api
 
 		def destroy
 			@user = User.find_by(token: session[:user_id])
-			@event = Event.where(events: {user_id: @user.id}, events: {id: params[:id]})
-			@event.destroy
+			@event = Event.where(events: {user_id: @user.id}).where(events: {id: params[:id]})
+			respond_to do |format|
+				if !@user.to_s.strip.empty?
+					@event.delete_all
+					format.html { redirect_to controller: "events", action: "index" }       
+					format.json { render json:{status: 'SUCCES', message:'Event deleted'}, status: :ok }
+				else
+					format.json { render json:{status: 'ERROR', message:'Event not exist to the user'}, status: :unprocessable_entity }
+				end	
+			end
 		end
 
 		private
 
 		def event_params
-			params.require(:event).permit(
+			params.permit(
 				:event_name,
 				:event_place,
 				:event_address,
@@ -141,7 +143,6 @@ module Api
 				:event_final_date,
 				:thumbnail
 			);
-
 		end
 	end	
 end

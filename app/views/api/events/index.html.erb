@@ -4,11 +4,10 @@
     </div>
     <div style="float:right">
         <%= button_to "Agregar evento", new_api_event_path, :method => :get %>
-        <a>Cerrar sesión</a>
+        <%= link_to 'Cerrar sesion', api_session_path(session[:user_id]), :method => :delete %>
     </div>
 </div>
  
-
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -38,7 +37,7 @@
             <td><%= event.event_final_date %></td>
             <td><%= event.thumbnail %></td>
             <td><%= link_to 'Editar', edit_api_event_path(event) %></td>
-            <td><%= link_to 'Delete', api_event_path(event), method: :delete, data: {confirm: '¿Está seguro de eliminar el evento?'} %></td>
+            <td><%= link_to 'Eliminar', api_event_path(event), method: :delete, data: {confirm: '¿Está seguro de eliminar el evento?'} %></td>
         </tr>
     <% end %>
   </tbody>
